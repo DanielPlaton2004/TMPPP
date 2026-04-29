@@ -1,0 +1,56 @@
+
+@startuml
+title LogisticsDispatch - Class Diagram (Domain/Infrastructure/Services)
+
+package Domain.Entities {
+  abstract class VehicleBase
+  class Truck
+  class Van
+  class Driver
+  class Client
+  class Shipment
+  class Invoice
+  class Payment
+}
+
+package Infrastructure.Repositories {
+  abstract class RepositoryBase
+  class InMemoryRepository
+  class ClientRepository
+  class VehicleRepository
+  class DriverRepository
+  class ShipmentRepository
+  class InvoiceRepository
+  class PaymentRepository
+}
+
+package Services {
+  interface Notifier
+  class EmailNotifier
+  class ClientService
+  class FleetService
+  class DriverService
+  class ShipmentService
+  class DispatchService
+  class BillingService
+}
+
+VehicleBase <|-- Truck
+VehicleBase <|-- Van
+
+RepositoryBase <|-- InMemoryRepository
+InMemoryRepository <|-- ClientRepository
+InMemoryRepository <|-- VehicleRepository
+InMemoryRepository <|-- DriverRepository
+InMemoryRepository <|-- ShipmentRepository
+InMemoryRepository <|-- InvoiceRepository
+InMemoryRepository <|-- PaymentRepository
+
+Notifier <|.. EmailNotifier
+
+Shipment --> Client : client_id
+Shipment --> Driver : assigned_driver_id
+Shipment --> VehicleBase : assigned_vehicle_id
+Invoice --> Shipment : shipment_id
+Payment --> Invoice : invoice_id
+@enduml
